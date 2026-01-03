@@ -1,0 +1,149 @@
+
+1. Total Employees
+
+This KPI shows the total number of unique employees present in the payroll system. It represents the overall workforce size of the organization.
+
+2. Active Employees
+
+This KPI counts the employees who are currently active and working in the organization. These employees are expected to receive salary and benefits.
+
+3. Inactive Employees
+
+This KPI shows the number of employees who are marked as inactive. Ideally, inactive employees should not receive salary, so this helps in identifying payroll risks.
+
+4. Total Payroll Cost
+
+This KPI represents the total amount of salary paid to all employees in a given period. It reflects the overall payroll expenditure of the organization.
+
+5. Average Salary
+
+This KPI shows the average salary of employees. It helps management understand salary distribution and compare compensation levels across periods or departments.
+
+6. Salary Leakage Amount
+
+This KPI calculates the total extra amount paid beyond the approved salary. It highlights direct financial loss due to payroll errors or policy violations.
+
+7. Salary Leakage Employees
+
+This KPI counts how many employees received salary credits higher than their approved salary. It helps identify individuals or departments causing payroll leakage.
+
+8. Overtime Abuse Count
+
+This KPI shows the number of employees who exceeded allowed overtime limits. It indicates misuse of overtime policies or workload imbalance.
+
+9. Ghost Employee Count
+
+This KPI identifies inactive employees who are still receiving salary. These are considered ghost employees and represent a serious payroll fraud risk.
+
+10. Missing Attendance Count
+
+This KPI shows the number of employees with missing or incomplete attendance records. Missing attendance directly affects payroll accuracy and compliance.
+
+11. Cost per Employee
+
+This KPI represents the average total cost incurred per employee, including salary and overtime pay. It helps evaluate workforce cost efficiency.
+
+12. Payroll Leakage Percentage
+
+This KPI shows the percentage of payroll lost due to salary leakage. It provides a clear view of payroll inefficiency relative to total payroll cost.
+
+13. Overtime Dependency Rate
+
+This KPI measures the proportion of employees who rely on overtime. A high value indicates excessive overtime usage and potential operational inefficiency.
+
+
+
+KPI 'S:
+
+====================================================================================================================================================================
+
+
+1)Total Employees = DISTINCTCOUNT(hr_payroll[employee_id])
+
+
+
+
+2)Active Employees =
+CALCULATE(
+    DISTINCTCOUNT(hr_payroll[employee_id]),
+    hr_payroll[employment_status] = "Active"
+)
+
+
+
+
+
+3)Inactive Employees =
+CALCULATE(
+    DISTINCTCOUNT(hr_payroll[employee_id]),
+    hr_payroll[employment_status] = "Inactive"
+)
+
+
+
+
+Total Payroll Cost = SUM(hr_payroll[salary_credit_amount])
+
+
+
+
+Average Salary = AVERAGE(hr_payroll[salary])
+
+
+
+
+Salary Leakage Amount = SUM(hr_payroll[salary_leakage])
+
+
+
+
+Salary Leakage Employees =
+COUNTROWS(FILTER(hr_payroll, hr_payroll[salary_leakage] > 0))
+
+
+
+
+Overtime Abuse Count =
+COUNTROWS(FILTER(hr_payroll, hr_payroll[overtime_abuse] = "Yes"))
+
+
+
+Ghost Employee Count =
+COUNTROWS(FILTER(hr_payroll, hr_payroll[ghost_employee] = "Yes"))
+
+
+
+
+Missing Attendance Count =
+COUNTROWS(FILTER(hr_payroll, hr_payroll[attendance_missing] = "Yes"))
+
+
+
+Cost per Employee = AVERAGE(hr_payroll[cost_per_employee])
+
+
+
+Payroll Leakage % =
+DIVIDE(
+    [Salary Leakage Amount],
+    [Total Payroll Cost]
+)
+
+
+
+Overtime Dependency Rate =
+DIVIDE(
+    COUNTROWS(FILTER(hr_payroll, hr_payroll[overtime_hours] > 0)),
+    [Total Employees]
+)
+
+
+====================================================================================================================================================================
+
+
+
+
+																		ARYA A
+
+
+
